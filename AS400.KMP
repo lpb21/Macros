@@ -1,0 +1,13 @@
+[Profile]
+ID=KMP
+Version=5
+[KEYBOARD]
+KEY43=[enter]
+S-KEY43=[enter]
+C-KEY43=[dead]
+KEY50='b'
+S-KEY50='B'
+A-KEY50=macro Macro
+KEY64=[newline]
+S-KEY64=[newline]
+KEY108=[enter]

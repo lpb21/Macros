@@ -1,0 +1,97 @@
+Description =
+[wait app]
+[wait inp inh]
+"FORMACION4Claro20201
+[enter]
+[wait inp inh]
+wait 10 sec until FieldAttribute 0020 at (1,1)
+[wait app]
+[wait inp inh]
+[enter]
+[wait inp inh]
+wait 10 sec until FieldAttribute 0020 at (1,1)
+[wait app]
+[wait inp inh]
+[enter]
+[wait inp inh]
+wait 10 sec until FieldAttribute 0000 at (8,12)
+wait 10 sec until cursor at (8,13)
+[wait app]
+[wait inp inh]
+[down]
+"1
+[enter]
+[wait inp inh]
+wait 10 sec until FieldAttribute 0000 at (20,6)
+wait 10 sec until cursor at (20,7)
+[wait app]
+[wait inp inh]
+"1
+[enter]
+[wait inp inh]
+wait 10 sec until FieldAttribute 0000 at (3,27)
+wait 10 sec until cursor at (3,28)
+[wait app]
+[wait inp inh]
+[down]
+[down]
+[down]
+[down]
+[down]
+[down]
+[down]
+[down]
+[down]
+[down]
+[down]
+[down]
+[down]
+[down]
+[down]
+[down]
+"7985487
+[pf7]
+[wait inp inh]
+wait 10 sec until FieldAttribute 0000 at (19,27)
+[wait app]
+[wait inp inh]
+[pf7]
+[wait inp inh]
+wait 10 sec until FieldAttribute 0000 at (19,27)
+wait 10 sec until cursor at (19,35)
+[wait app]
+[wait inp inh]
+"o
+[backspace]
+[sys attn]
+"1
+[enter]
+[wait inp inh]
+wait 10 sec until FieldAttribute 0000 at (20,6)
+[wait app]
+[wait inp inh]
+[pf3]
+[wait inp inh]
+wait 10 sec until FieldAttribute 0000 at (20,6)
+[wait app]
+[wait inp inh]
+[pf3]
+[wait inp inh]
+wait 10 sec until FieldAttribute 0000 at (19,27)
+wait 10 sec until cursor at (19,35)
+[wait app]
+[wait inp inh]
+[backspace]
+"2
+[pf7]
+[wait inp inh]
+wait 10 sec until FieldAttribute 0000 at (19,27)
+[wait app]
+[wait inp inh]
+[pf19]
+[wait inp inh]
+wait 10 sec until FieldAttribute 0000 at (19,27)
+[wait app]
+[wait inp inh]
+[pf19]
+

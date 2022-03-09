@@ -1,0 +1,333 @@
+
+[PCOMM SCRIPT HEADER]
+LANGUAGE=VBSCRIPT
+DESCRIPTION=
+[PCOMM SCRIPT SOURCE]
+OPTION EXPLICIT
+autECLSession.SetConnectionByName(ThisSessionName)
+Public array_fechas()
+Public array_dtipificacion()
+public array_numerosCuenta()
+public array_Marcaciones()
+Public contador
+public contador1
+public x
+
+
+
+REM This line calls the macro subroutine
+principal()
+    
+'declaracion de variables
+dim valorFecha,fechas,validar,comprobarX,comprobar2,comprobar1,comprobar,cedula,strFile
+dim i, mes, hora_actual,diferencia,comprobarLog,comprobarLog2,comprobarTexto2,objFS
+'/////variables usadas
+dim saldoActual,rentaMensual,rentaatrasada,ciudad,valorUltPago,fechaUltPago,variablea,prueba1,nroCta,strUsuario,errorCta,mensaje
+dim val_Usuario,val_Rdetalle,fso, MiArchivo,pathFile,nombreComp,strFileText,controlCiclo,objFileToRead,objFile,objOutFile,strTemp,salir,controlCiclo1
+
+contador = 1
+contador1 = 0
+
+'strUserName = Inputbox ("Ingrese el nombre de usuario predeterminado", "Input Required") strPassword = Inputbox ("Ingrese la contraseña predeterminada", "Input Required")
+
+
+function capData()
+              
+    
+    'autECLSession.autECLOIA.WaitForInputReady
+
+    'nroCta = autECLSession.autECLPS.GetText(2,58,8)
+    'if (nroCta = "        ")then
+        'capData()
+    'else
+    'end if
+
+    '///ciudad/////
+    ciudad =  autECLSession.autECLPS.GetText(6,44,10)
+    ciudad = Trim(ciudad)
+
+    '////////Valor del saldo actual///////
+    autECLSession.autECLOIA.WaitForInputReady
+    saldoActual =  autECLSession.autECLPS.GetText(17,28,8)
+    'saldoActual = LTrim(saldoActual)
+    'saldoActual = RTrim(saldoActual)
+    if (saldoActual = "        ")then
+      saldoActual = "sin registro"
+    'msgbox("No tiene  saldo")
+    else saldoActual = Trim(saldoActual)
+    'msgbox("Si tiene saldo")
+    end if
+
+    '///////nombre completo
+    autECLSession.autECLOIA.WaitForInputReady
+    nombreComp = autECLSession.autECLPS.GetText(03,007,20)
+    nombreComp = Trim(nombreComp)
+    'msgbox nombreComp
+
+    '////////valor de la renta mensual/////
+    autECLSession.autECLOIA.WaitForInputReady
+    rentaMensual =  autECLSession.autECLPS.GetText(18,28,8)
+    rentaMensual = Trim(rentaMensual)
+
+    '////////valor de ultimo pago///////
+    autECLSession.autECLOIA.WaitForInputReady
+    valorUltPago = autECLSession.autECLPS.GetText(16,28,9)
+    valorUltPago = Trim(valorUltPago)
+
+    '//////////Numero de cuenta//////////
+    autECLSession.autECLOIA.WaitForInputReady
+    nroCta = autECLSession.autECLPS.GetText(2,58,8)
+    nroCta = Trim(nroCta)
+
+    '////////Fecha de ultimo pago/////////
+    autECLSession.autECLOIA.WaitForInputReady
+    fechaUltPago = autECLSession.autECLPS.GetText(15,23,9)
+    fechaUltPago = Trim(fechaUltPago)
+    escribir()
+    'MsgBox "melo"
+    autECLSession.autECLPS.Wait(1000)
+
+end function
+
+
+'//////Extraer
+'msgbox("ciudad: " + ciudad + chr(13) + chr(10) + "Fecha de ultimo pago: " & fechaUltPago + chr(13) + chr(10) + _
+  '"El saldo actual es: " & saldoActual + chr(13) + chr(10) + "La renta mensual es: " + rentaMensual)
+
+
+function escribir()
+  On Error Resume Next
+      DoStep1
+  'autECLSession.autECLPS.SendKeys "[pf7]"
+  '////Crea el .txt con las variables solicitadas en la funcion capData
+  Set fso = CreateObject("Scripting.FileSystemObject")
+  pathFile = "C:\Users\carlos.santos\Desktop\ClaroBt\datosCliente.txt"
+  Set MiArchivo = fso.CreateTextFile(pathFile, True)
+  'msgbox nombreComp, nroCta, ciudad
+  'MiArchivo.WriteLine(nombreComp  & vbCr & nroCta & vbCr & ciudad  & vbCr & fechaUltPago  & vbCr & saldoActual  & vbCr & rentaMensual)
+  MiArchivo.WriteLine(nombreComp  & chr(10) & nroCta & chr(10) & ciudad  & chr(10) & fechaUltPago  & chr(10) & saldoActual  & chr(10) & rentaMensual)
+  MiArchivo.Close
+  
+End function
+
+
+function escribir2()
+  On Error Resume Next
+  DoStep1
+      
+  'autECLSession.autECLPS.SendKeys "[pf7]"
+  '////Crea el .txt con las variables solicitadas en la funcion capData
+  Set fso = CreateObject("Scripting.FileSystemObject")
+  pathFile = "C:\Users\carlos.santos\Desktop\ClaroBt\datosCliente.txt"
+  Set MiArchivo = fso.CreateTextFile(pathFile, True)
+  'msgbox nombreComp, nroCta, ciudad
+  
+  mensaje = strFileText &  chr(10) &  "noExiste" 
+  'msgbox mensaje
+  MiArchivo.WriteLine(mensaje)
+  MiArchivo.Close
+  
+End function
+
+'msgbox("escrito con exito")
+
+function borrarTxt()
+
+    'Escribir txt
+
+    'On Error Resume Next
+
+    'DoStep  
+
+    Set objFS = CreateObject("Scripting.FileSystemObject")
+    strFile = "C:\Users\carlos.santos\Desktop\ClaroBt\cuentas.txt"
+    strTemp = "C:\Users\carlos.santos\Desktop\ClaroBt\temp.txt"    
+    Set objFile = objFS.OpenTextFile(strFile, 2)
+    Set objOutFile = objFS.CreateTextFile(strTemp,True)    
+
+        'strLine = objFile.ReadLine        
+
+        'contenido a escribir   
+        'MsgBox("entra en borrar")
+        objOutFile.Write("")                               
+
+    objOutFile.Close    
+
+    objFile.Close            
+
+    objFS.DeleteFile(strFile)
+
+    objFS.MoveFile strTemp,strFile 
+          
+End function
+
+
+
+function leerTxtCuentas()
+     On Error Resume Next
+     DoStep1  
+     contador1 = 0
+     strFileText = ""
+     Set objFileToRead = CreateObject("Scripting.FileSystemObject").OpenTextFile("C:\Users\carlos.santos\Desktop\ClaroBt\cuentas.txt",1)    
+     strFileText = objFileToRead.ReadAll()
+     objFileToRead.Close
+     'msgbox strFileText  
+    autECLSession.autECLOIA.WaitForInputReady
+    'strUsuario =  autECLSession.autECLPS.GetText(03,10,7)
+
+    'if en caso que el RR haga logout
+     'if (strUsuario = "Usuario")then
+     ' msgbox strUsuario
+      'strUsuario = "sin registro"
+      'principal()
+    'end if 
+     if (Err.Number <> 0)then
+
+        'While que siempre esta en movimiento y consultando el txt ara evitar que RR haga unlog
+        DO WHILE (len(strFileText) <= 0)
+            'aqui hacer up y down para que no se inactive el usuario  
+            autECLSession.autECLOIA.WaitForInputReady
+            autECLSession.autECLPS.SendKeys "[up]"  
+            autECLSession.autECLPS.Wait(1000)          
+            Set objFileToRead = CreateObject("Scripting.FileSystemObject").OpenTextFile("C:\Users\carlos.santos\Desktop\ClaroBt\cuentas.txt",1)
+            strFileText = objFileToRead.ReadAll()            
+            objFileToRead.Close
+                            
+            if (len(strFileText) > 0)then
+                Exit do
+            end if
+        LOOP 
+                 
+    end if
+    
+    strFileText = Trim(strFileText)
+    leerTxtCuentas = strFileText
+    'msgbox ("ANTES DE F7")
+    'capData()
+    'autECLSession.autECLPS.SendKeys "[reset]"
+    'autECLSession.autECLPS.Wait(1000)
+    borrarTxt()
+    'capData()
+    
+    
+end function
+'
+
+
+function principal()
+
+  variablea = autECLSession.autECLPS.WaitForString("Usuario", 3, 10, 4000)  
+  'msgbox variablea & "Se encontro usuario"   
+  if (variablea = "True") then
+  
+    'autECLSession.autECLOIA.WaitForInputReady
+    'autECLSession.autECLPS.Wait(1000)
+    '/////Ingreso de credenciales
+    autECLSession.autECLPS.SendKeys "EC1802N", 3, 27
+    autECLSession.autECLOIA.WaitForInputReady
+    autECLSession.autECLPS.SendKeys "ALEMANIA86", 4, 27  
+    autECLSession.autECLOIA.WaitForInputReady
+    autECLSession.autECLPS.SendKeys "[enter]"
+'///////Enter para digitar el 1 inicial////////
+    autECLSession.autECLPS.Wait(1000)
+    autECLSession.autECLPS.SendKeys "[enter]"
+    autECLSession.autECLPS.Wait(2000)
+
+    '//////If de validacion en caso de existir varias sesiones activas/////////
+    'if (prueba1=autECLSession.autECLPS.GetText(9,22,9) = "PRUEBAS04") then
+    'MsgBox "TITULO123" 
+    'autECLSession.autECLPS.Wait(1000)
+        'autECLSession.autECLPS.SendKeys "[enter]"
+        'autECLSession.autECLPS.SendKeys "[enter]"
+    autECLSession.autECLPS.SendKeys "[reset]"
+    autECLSession.autECLPS.SendKeys "1", 20, 07
+    'else
+    autECLSession.autECLPS.SendKeys "[enter]"
+    'autECLSession.autECLPS.Wait(1000)
+    autECLSession.autECLPS.Wait(1000)
+    'msgbox ("prueba123")
+    'autECLSession.autECLPS.SendKeys "
+    'autECLSession.autECLPS.SendKeys "1", 9, 13
+    'End if
+
+    'autECLSession.autECLPS.Wait(1000)
+    'autECLSession.autECLPS.SendKeys "1", 9, 13
+    'autECLSession.autECLPS.Wait(1000)
+    'autECLSession.autECLPS.SendKeys "[enter]"
+    'autECLSession.autECLOIA.WaitForInputReady
+    'autECLSession.autECLPS.Wait(2000)
+    
+  End if
+
+
+
+
+  '//////consulta de suscriptor//////
+    'autECLSession.autECLPS.Wait(1000)
+    'autECLSession.autECLPS.SendKeys "1", 20, 07
+    'autECLSession.autECLPS.SendKeys "[enter]"
+
+
+  controlCiclo = 0
+  controlCiclo1 = 0
+  DO WHILE controlCiclo1 = 0
+    DO WHILE controlCiclo = 0
+      leerTxtCuentas()        
+          
+        autECLSession.autECLOIA.WaitForInputReady
+        autECLSession.autECLPS.SendKeys "[reset]"      
+        
+        autECLSession.autECLOIA.WaitForInputReady
+        autECLSession.autECLPS.SendKeys "[reset]"
+
+        autECLSession.autECLPS.SendKeys strFileText, 19, 28      
+        'msgbox strFileText
+        autECLSession.autECLOIA.WaitForInputReady
+        autECLSession.autECLPS.SendKeys "[reset]"
+        
+        autECLSession.autECLOIA.WaitForInputReady
+        autECLSession.autECLPS.SendKeys "[up]"
+        autECLSession.autECLOIA.WaitForInputReady
+        autECLSession.autECLPS.SendKeys "[reset]"      
+        autECLSession.autECLOIA.WaitForInputReady
+        autECLSession.autECLPS.SendKeys "[pf7]"
+        autECLSession.autECLPS.Wait(1000)
+        autECLSession.autECLOIA.WaitForInputReady
+        errorCta = autECLSession.autECLPS.GetText(24,02,15)
+        
+        salir = False
+        if (errorCta = "Numero del susc")then           
+          escribir2()
+          salir = True
+        else
+          capData()
+        end if
+        
+         
+
+
+
+        autECLSession.autECLOIA.WaitForInputReady
+        autECLSession.autECLPS.SendKeys "[sysreq]"'shift + escape        
+        autECLSession.autECLOIA.WaitForInputReady            
+        autECLSession.autECLPS.SendKeys "2", 24, 02            
+        autECLSession.autECLOIA.WaitForInputReady            
+        autECLSession.autECLPS.SendKeys "[enter]"             
+        autECLSession.autECLPS.Wait(1000)
+        autECLSession.autECLOIA.WaitForInputReady
+        autECLSession.autECLPS.SendKeys "1", 20, 07
+        autECLSession.autECLOIA.WaitForInputReady
+        autECLSession.autECLPS.SendKeys "[enter]" 
+
+
+        
+
+      'Next   
+
+    LOOP
+  LOOP
+    
+
+end function
+
+  

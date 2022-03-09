@@ -1,0 +1,44 @@
+[Profile]
+ID=WS
+Version=9
+[CT]
+trace=Y
+[Telnet5250]
+HostName=172.18.10.11
+AssociatedPrinterStartMinimized=N
+AssociatedPrinterClose=N
+AssociatedPrinterTimeout=0
+Security=CA400
+SSLClientAuthentication=Y
+CertSelection=AUTOSELECT
+[Communication]
+Link=telnet5250
+Session=5250
+[5250]
+HostCodePage=284-L
+PrinterType=IBM3812
+[Keyboard]
+CuaKeyboard=2
+Language=United-States
+IBMDefaultKeyboard=N
+DefaultKeyboard=C:\Users\carlos.santos\AppData\Roaming\IBM\Client Access\Emulator\private\AS400.KMP
+[LastExitView]
+A=3 188 105 976 560 3 12 18 400 0 IBM3270— 284
+[Transfer]
+HostSystem=4
+DefaultDirectory=C:\Users\carlos.santos\Documents
+[VT]
+ReceiveDataBits=2
+StripEscSeq=Y
+ReceivePromptForFile=N
+ReceiveFile=1
+SendLFto=CR
+SendCRto=CR
+SendCRLFto=CR
+SendDataBits=0
+SendPromptForFile=N
+[Macro]
+OpenMacro=botsito.MAC
+[Window]
+ViewFlags=CE00
+RuleLinePos=0 0
